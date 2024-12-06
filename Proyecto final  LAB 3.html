@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Portafolio Profesional de Eudys Ramírez: experiencia, proyectos, herramientas y más.">
+    <meta name="keywords" content="Eudys Ramírez, Portafolio, Tecnología, Soporte Técnico, Ciberseguridad, Python, IA, Proyectos">
+    <meta name="author" content="Eudys Ramírez">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eudys Ramírez - Portafolio Profesional</title>
+    <link rel="icon" href="favicon.ico">
+
+    <!-- Librerías externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /*---------------------------------------------
+        ESTILOS GENERALES Y MODO OSCURO/CLARO
+        ---------------------------------------------*/
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #222;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode a {
+            color: #ddd;
+        }
+
+        body.dark-mode a:hover {
+            color: #fff;
+        }
+
+        /* Transición suave al cambiar de página */
+        .page {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /*---------------------------------------------
+        ENCABEZADO
+        ---------------------------------------------*/
+        header {
+            background-color: #35424a;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+            position: relative;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e8491d;
+            border: none;
+            color: #fff;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .mode-toggle:hover {
+            background: #cf3c13;
+        }
+
+        /*---------------------------------------------
+        NAVEGACIÓN
+        ---------------------------------------------*/
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #35424a;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav li {
+            display: inline-block;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        nav a {
+            display: block;
+            padding: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #e8491d;
+        }
+
+        nav a.active-link {
+            background-color: #e8491d;
+        }
+
+        nav li ul {
+            display: none;
+            position: absolute;
+            background-color: #35424a;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            top: 60px;
+            left: 0;
+            width: 200px;
+            z-index: 1;
+        }
+
+        nav li:hover ul {
+            display: block;
+        }
+
+        nav li ul li {
+            width: 100%;
+        }
+
+        nav li ul li a {
+            padding: 10px;
+        }
+
+        /*---------------------------------------------
+        CONTENEDOR PRINCIPAL
+        ---------------------------------------------*/
+        main.content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            background-color: #ffffff;
+            transition: background 0.3s;
+        }
+
+        body.dark-mode main.content {
+            background-color: #333;
+        }
+
+        h2 {
+            border-bottom: 2px solid #e8491d;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /*---------------------------------------------
+        FOOTER
+        ---------------------------------------------*/
+        footer {
+            background-color: #35424a;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #e8491d;
+            text-decoration: none;
+        }
+
+        /*---------------------------------------------
+        BOTONES
+        ---------------------------------------------*/
+        .button {
+            display: inline-block;
+            color: #ffffff;
+            background-color: #e8491d;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #cf3c13;
+        }
+
+        /*---------------------------------------------
+        PESTAÑAS DEL CV
+        ---------------------------------------------*/
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            background-color: #f4f4f4;
+            margin-top: 20px;
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            text-transform: uppercase;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #e8491d;
+            color: #ffffff;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border-top: none;
+        }
+
+        /*---------------------------------------------
+        FORMULARIOS (GENERALES)
+        ---------------------------------------------*/
+        form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        form input, form select, form button {
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #e8491d;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #cf3c13;
+        }
+
+        /*---------------------------------------------
+        TABLAS
+        ---------------------------------------------*/
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #dddddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e8491d;
+            color: #ffffff;
+        }
+
+        /*---------------------------------------------
+        LISTAS
+        ---------------------------------------------*/
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            background: url('bullet.png') no-repeat left center;
+            background-size: 20px;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        /*---------------------------------------------
+        SECCIÓN CONTACTO QR
+        ---------------------------------------------*/
+        #qrcode {
+            margin-top: 20px;
+        }
+
+        /*---------------------------------------------
+        REGISTRO USUARIOS XLSX
+        ---------------------------------------------*/
+        #registro_xlsx .form-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        #registro_xlsx h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #registro_xlsx label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        #registro_xlsx input[type="text"],
+        #registro_xlsx input[type="email"],
+        #registro_xlsx input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        #registro_xlsx button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #registro_xlsx button:hover {
+            background-color: #1669c1;
+        }
+
+        #registro_xlsx .user-list {
+            margin-top: 30px;
+        }
+
+        #registro_xlsx .user-list h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #registro_xlsx .user-list-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        #registro_xlsx .form-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        #registro_xlsx .form-footer .highlight {
+            font-weight: bold;
+            color: #1a73e8;
+            animation: glow 5.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                color: #1a73e8;
+                text-shadow: 0 0 5px #1a73e8, 0 0 10px #1a73e8, 0 0 15px #1a73e8;
+            }
+            50% {
+                color: #4b89f0;
+                text-shadow: 0 0 10px #4b89f0, 0 0 15px #4b89f0, 0 0 20px #4b89f0;
+            }
+            100% {
+                color: #76a8ff;
+                text-shadow: 0 0 15px #76a8ff, 0 0 20px #76a8ff, 0 0 30px #76a8ff;
+            }
+        }
+
+        /*---------------------------------------------
+        VENTAS MENSUALES
+        ---------------------------------------------*/
+        #ventas_mensuales .ventas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #ventas_mensuales h1, #ventas_mensuales h2 {
+            color: #333;
+        }
+        #ventas_mensuales form {
+            margin-bottom: 30px;
+        }
+        #ventas_mensuales label {
+            margin-right: 10px;
+        }
+        #ventas_mensuales input {
+            margin-right: 10px;
+            padding: 5px;
+        }
+        #ventas_mensuales button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #ventas_mensuales button:hover {
+            background-color: #45a049;
+        }
+        #ventas_mensuales canvas {
+            max-width: 600px;
+            max-height: 400px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <h1>Eudys Ramírez</h1>
+        <button class="mode-toggle" id="modeToggle">Modo Oscuro</button>
+    </header>
+
+    <!-- Menú principal -->
+    <nav role="navigation" aria-label="Menú principal">
+        <ul>
+            <li><a href="#" data-page="home">Inicio</a></li>
+            <li><a href="#" data-page="cv">Currículum Vitae</a></li>
+            <li><a href="#" data-page="proyectos">Proyectos</a></li>
+            <li>
+                <a href="#">Herramientas</a>
+                <ul>
+                    <li><a href="#" data-page="cedula">Validador de Cédula</a></li>
+                    <li><a href="#" data-page="conexion">Verificador de Conexión</a></li>
+                    <li><a href="#" data-page="calculadora">Calculadora</a></li>
+                    <li><a href="#" data-page="conversor">Conversor de Monedas</a></li>
+                    <li><a href="#" data-page="contacto_qr">Contacto QR</a></li>
+                    <li><a href="#" data-page="registro_xlsx">Registro XLSX</a></li>
+                    <li><a href="#" data-page="ventas_mensuales">Ventas Mensuales</a></li>
+                </ul>
+            </li>
+            <li><a href="#" data-page="contacto">Contacto</a></li>
+            <li><a href="#" data-page="sobre_mi">Sobre Mí</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="content" role="main">
+        <!-- Página de Inicio -->
+        <section id="home" class="page active">
+            <h2>Bienvenido a mi Portafolio Profesional</h2>
+            <p>Explora mi trayectoria, proyectos y las herramientas que he desarrollado. ¡Gracias por visitarme!</p>
+        </section>
+
+        <!-- Página de Currículum Vitae -->
+        <section id="cv" class="page" style="display:none;">
+            <h2>Currículum Vitae</h2>
+            <div class="tab" role="tablist" aria-label="Secciones del Currículum">
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="perfil" id="tab-perfil" onclick="openTab(event, 'perfil')">Perfil</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="experiencia" id="tab-experiencia" onclick="openTab(event, 'experiencia')">Experiencia</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="educacion" id="tab-educacion" onclick="openTab(event, 'educacion')">Educación</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="habilidades" id="tab-habilidades" onclick="openTab(event, 'habilidades')">Habilidades</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="certificaciones" id="tab-certificaciones" onclick="openTab(event, 'certificaciones')">Certificaciones</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="referencias" id="tab-referencias" onclick="openTab(event, 'referencias')">Referencias</button>
+                <button class="tablinks" role="tab" aria-selected="false" aria-controls="contacto_cv" id="tab-contacto_cv" onclick="openTab(event, 'contacto_cv')">Contacto</button>
+            </div>
+
+            <div id="perfil" class="tabcontent" role="tabpanel" aria-labelledby="tab-perfil">
+                <h3>Perfil</h3>
+                <p>Soy Eudys Ramírez, un profesional de la tecnología con sólida experiencia en soporte técnico, ciberseguridad y desarrollo de software. Me apasiona aprender nuevas tecnologías, optimizar sistemas y ofrecer soluciones que mejoren la experiencia de los usuarios. He trabajado con diversas instituciones públicas y privadas, enfocándome en la calidad, la mejora continua y la seguridad de la información. Además, tengo un interés particular en la inteligencia artificial y su aplicación práctica en entornos empresariales, buscando siempre aportar valor a través de la innovación.</p>
+            </div>
+
+            <div id="experiencia" class="tabcontent" role="tabpanel" aria-labelledby="tab-experiencia">
+                <h3>Experiencia Laboral</h3>
+                <ul>
+                    <li><strong>Soporte Técnico en OCTIC</strong> (2022 - Presente)
+                        <ul>
+                            <li>Brindé soporte técnico a instituciones como Salud Pública y Contraloría.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Mantenimiento Técnico en Instituciones Educativas</strong>
+                        <ul>
+                            <li>Configuración y diagnóstico de equipos electrónicos.</li>
+                            <li>Optimización del rendimiento de sistemas informáticos.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="educacion" class="tabcontent" role="tabpanel" aria-labelledby="tab-educacion">
+                <h3>Formación Académica</h3>
+                <ul>
+                    <li><strong>Licenciatura en Sistemas</strong> - Universidad Autónoma de Santo Domingo (En curso)</li>
+                </ul>
+            </div>
+
+            <div id="habilidades" class="tabcontent" role="tabpanel" aria-labelledby="tab-habilidades">
+                <h3>Habilidades</h3>
+                <ul>
+                    <li>Soporte Técnico y Mantenimiento de Hardware</li>
+                    <li>Ciberseguridad Básica y Monitoreo de Vulnerabilidades</li>
+                    <li>Programación en Python y manejo de scripts para automatización</li>
+                    <li>Inteligencia Artificial: fundamentos y uso de librerías</li>
+                </ul>
+            </div>
+
+            <div id="certificaciones" class="tabcontent" role="tabpanel" aria-labelledby="tab-certificaciones">
+                <h3>Certificaciones</h3>
+                <ul>
+                    <li>Certificaciones en tecnología de universidades prestigiosas (ej. cursos en ciberseguridad y Python)</li>
+                    <li>Cursos especializados en IA y análisis de datos</li>
+                </ul>
+            </div>
+
+            <div id="referencias" class="tabcontent" role="tabpanel" aria-labelledby="tab-referencias">
+                <h3>Referencias Profesionales</h3>
+                <p>Disponibles bajo solicitud.</p>
+            </div>
+
+            <div id="contacto_cv" class="tabcontent" role="tabpanel" aria-labelledby="tab-contacto_cv">
+                <h3>Contacto</h3>
+                <p>Para consultas profesionales, puedes contactarme a través de:</p>
+                <p>Email: <a href="mailto:ramirez.eu15@gmail.com">ramirez.eu15@gmail.com</a></p>
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/eudys-de-jesus-ramirez-152707296" target="_blank" rel="noopener noreferrer">linkedin.com/in/eudys-de-jesus-ramirez</a></p>
+            </div>
+        </section>
+
+        <!-- Página de Proyectos -->
+        <section id="proyectos" class="page" style="display:none;">
+            <h2>Proyectos</h2>
+            <ul>
+                <li><strong>Sistema de Gestión de Inventario</strong> - Desarrollo de una aplicación para el control de inventarios en pequeñas empresas.</li>
+                <li><strong>Aplicación de Soporte Remoto</strong> - Herramienta para brindar soporte técnico a distancia.</li>
+            </ul>
+        </section>
+
+        <!-- Página de Validador de Cédula -->
+        <section id="cedula" class="page" style="display:none;">
+            <h2>Validador de Cédula</h2>
+            <form onsubmit="validarCedula(); return false;">
+                <label for="cedula">Ingrese su número de cédula:</label>
+                <input type="text" id="cedula" name="cedula" required>
+                <button type="submit">Validar</button>
+            </form>
+            <p id="resultadoCedula"></p>
+        </section>
+
+        <!-- Página de Verificador de Conexión -->
+        <section id="conexion" class="page" style="display:none;">
+            <h2>Verificador de Conexión</h2>
+            <button onclick="verificarConexion()">Verificar Conexión</button>
+            <p id="resultadoConexion"></p>
+        </section>
+
+        <!-- Página de Calculadora -->
+        <section id="calculadora" class="page" style="display:none;">
+            <h2>Calculadora Simple</h2>
+            <form onsubmit="calcular(); return false;">
+                <input type="number" id="num1" required> +
+                <input type="number" id="num2" required>
+                <button type="submit">Calcular</button>
+            </form>
+            <p id="resultadoCalculadora"></p>
+        </section>
+
+        <!-- Página de Conversor de Monedas -->
+        <section id="conversor" class="page" style="display:none;">
+            <h2>Conversor de Monedas</h2>
+            <form onsubmit="convertirMoneda(); return false;">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" required>
+                <label for="monedaOrigen">Moneda Origen:</label>
+                <select id="monedaOrigen">
+                    <option value="USD">USD</option>
+                    <option value="DOP">DOP</option>
+                </select>
+                <label for="monedaDestino">Moneda Destino:</label>
+                <select id="monedaDestino">
+                    <option value="DOP">DOP</option>
+                    <option value="USD">USD</option>
+                </select>
+                <button type="submit">Convertir</button>
+            </form>
+            <p id="resultadoConversor"></p>
+        </section>
+
+        <!-- Página de Contacto -->
+        <section id="contacto" class="page" style="display:none;">
+            <h2>Contacto</h2>
+            <p>Si deseas ponerte en contacto conmigo, puedes hacerlo a través de los siguientes medios:</p>
+            <p>Email: <a href="mailto:ramirez.eu15@gmail.com">ramirez.eu15@gmail.com</a></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/eudys-de-jesus-ramirez-152707296" target="_blank" rel="noopener noreferrer">linkedin.com/in/eudys-de-jesus-ramirez</a></p>
+            <p>Sígueme en redes sociales:</p>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/eudys-de-jesus-ramirez-152707296" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://github.com/eudysramirez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+        </section>
+
+        <!-- Página Sobre Mí -->
+        <section id="sobre_mi" class="page" style="display:none;">
+            <h2>Sobre Mí</h2>
+            <p>Soy un entusiasta de la transformación digital, con más de 5 años de experiencia en el campo tecnológico. Me he especializado en soporte técnico, ciberseguridad y desarrollo de aplicaciones web, aplicando metodologías ágiles y principios de diseño orientado a objetos. Mi objetivo es contribuir al crecimiento de las organizaciones a través de la innovación tecnológica, el análisis de sistemas y la mejora continua. Disfruto compartir conocimientos con otros profesionales, participar en comunidades de código abierto, mantenerme al día con las tendencias del sector y anticiparme a los problemas para proponer soluciones efectivas. Mi enfoque se centra en la calidad, la seguridad y la optimización de recursos para lograr resultados tangibles en cada proyecto.</p>
+        </section>
+
+        <!-- Página de Contacto con QR -->
+        <section id="contacto_qr" class="page" style="display:none;">
+            <h2>Formulario de Contacto con QR</h2>
+            <form id="contactForm">
+              <label for="name">Nombre:</label>
+              <input type="text" id="name" name="name" required><br><br>
+              
+              <label for="phone">Teléfono:</label>
+              <input type="tel" id="phone" name="phone" required><br><br>
+              
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required><br><br>
+              
+              <button type="button" onclick="generateQRCode()">Enviar y Generar QR</button>
+            </form>
+            <h3>Código QR:</h3>
+            <div id="qrcode"></div>
+        </section>
+
+        <!-- Página de Registro Usuarios XLSX -->
+        <section id="registro_xlsx" class="page" style="display:none;">
+            <div class="form-container">
+                <h1>Registro de Usuarios</h1>
+                <form id="userForm">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="age">Edad:</label>
+                    <input type="number" id="age" name="age" required>
+
+                    <button type="submit">Registrar</button>
+                    <button type="button" onclick="exportToExcel()">Exportar a Excel</button>
+                </form>
+                <div class="user-list" id="userList">
+                    <h2>Usuarios Registrados</h2>
+                </div>
+                <div class="form-footer">
+                    Creado por Eudys Ramirez (<span class="highlight">0verL</span>)
+                </div>
+            </div>
+        </section>
+
+        <!-- Página de Ventas Mensuales -->
+        <section id="ventas_mensuales" class="page" style="display:none;">
+            <div class="ventas-container">
+                <h1>Formulario de Ventas Mensuales</h1>
+                <form id="salesForm">
+                    <label for="month">Mes:</label>
+                    <input type="text" id="month" name="month" required placeholder="Ej: Enero, Febrero">
+                    
+                    <label for="sales">Ventas:</label>
+                    <input type="number" id="sales" name="sales" required>
+                    
+                    <button type="submit">Agregar</button>
+                </form>
+
+                <h2>Gráfico de Ventas</h2>
+                <canvas id="salesChart" width="400" height="200"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Eudys Ramírez. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mostrar la página de inicio por defecto
+            showPage('home');
+
+            // Modo Oscuro/Claro
+            const modeToggle = document.getElementById('modeToggle');
+            modeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                modeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Oscuro';
+            });
+
+            // Navegación entre páginas
+            const navLinks = document.querySelectorAll('nav a[data-page]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+
+            // Ventas Mensuales
+            const salesForm = document.getElementById('salesForm');
+            const salesChartCanvas = document.getElementById('salesChart');
+
+            if (salesForm && salesChartCanvas) {
+                const monthsInOrder = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                const salesData = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Ventas por Mes',
+                        data: [],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data: salesData,
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                };
+
+                const salesChart = new Chart(salesChartCanvas, config);
+                let currentYear = 2024;
+                let lastMonthIndex = -1;
+
+                salesForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    const month = document.getElementById('month').value;
+                    const sales = parseInt(document.getElementById('sales').value);
+
+                    const monthIndex = monthsInOrder.indexOf(month);
+
+                    if (monthIndex === -1) {
+                        alert("Mes no válido. Usa el nombre completo del mes, por ejemplo: Enero, Febrero.");
+                        return;
+                    }
+
+                    const existingIndex = salesData.labels.findIndex(label => label === `${month} ${currentYear}`);
+
+                    if (existingIndex !== -1) {
+                        const overwrite = confirm(`El mes ${month} ya existe para ${currentYear}. ¿Deseas sobrescribir o agregar como un nuevo año? Presiona "Aceptar" para sobrescribir o "Cancelar" para agregar en el próximo año.`);
+                        if (overwrite) {
+                            salesData.datasets[0].data[existingIndex] = sales;
+                            salesChart.update();
+                        } else {
+                            currentYear++;
+                            addDataToChart(month, sales, currentYear);
+                        }
+                        clearSalesForm();
+                        return;
+                    }
+
+                    if (monthIndex !== lastMonthIndex + 1 && !(lastMonthIndex === 11 && monthIndex === 0) && lastMonthIndex !== -1) {
+                        alert("Debes ingresar los meses en secuencia (Enero, Febrero, etc.).");
+                        return;
+                    }
+
+                    addDataToChart(month, sales, currentYear);
+                    lastMonthIndex = monthIndex;
+                    clearSalesForm();
+                });
+
+                function addDataToChart(month, sales, year) {
+                    salesData.labels.push(`${month} ${year}`);
+                    salesData.datasets[0].data.push(sales);
+                    salesChart.update();
+                }
+
+                function clearSalesForm() {
+                    document.getElementById('month').value = '';
+                    document.getElementById('sales').value = '';
+                }
+            }
+
+        });
+
+        // Función para cambiar de página
+        function showPage(pageId) {
+            const pages = document.getElementsByClassName('page');
+            const navLinks = document.querySelectorAll('nav a[data-page]');
+
+            for (let i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+                pages[i].style.display = 'none';
+            }
+
+            const pageToShow = document.getElementById(pageId);
+            if (pageToShow) {
+                pageToShow.style.display = 'block';
+                setTimeout(() => {
+                    pageToShow.classList.add('active');
+                }, 50);
+            }
+
+            // Actualizar enlace activo en el menú
+            navLinks.forEach(link => link.classList.remove('active-link'));
+            const activeLink = document.querySelector(`nav a[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active-link');
+            }
+        }
+
+        // Función para pestañas en CV
+        function openTab(evt, tabName) {
+            const tabcontent = document.getElementsByClassName('tabcontent');
+            const tablinks = document.getElementsByClassName('tablinks');
+
+            // Ocultar todos los paneles
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = 'none';
+                tabcontent[i].setAttribute('aria-hidden', 'true');
+            }
+
+            // Desactivar todas las pestañas
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove('active');
+                tablinks[i].setAttribute('aria-selected', 'false');
+            }
+
+            // Mostrar la pestaña seleccionada
+            const target = document.getElementById(tabName);
+            if (target) {
+                target.style.display = 'block';
+                target.setAttribute('aria-hidden', 'false');
+            }
+
+            if (evt) {
+                evt.currentTarget.classList.add('active');
+                evt.currentTarget.setAttribute('aria-selected', 'true');
+            }
+        }
+
+        // Función para validar cédula
+        function validarCedula() {
+            const cedula = document.getElementById('cedula').value;
+            const resultado = document.getElementById('resultadoCedula');
+            if (cedula.length !== 11 || isNaN(cedula)) {
+                resultado.textContent = 'Número de cédula inválido.';
+                return;
+            }
+            // Aquí se podría implementar la validación específica de la cédula dominicana
+            resultado.textContent = 'Validación de cédula no implementada.';
+        }
+
+        // Función para verificador de conexión
+        function verificarConexion() {
+            const resultado = document.getElementById('resultadoConexion');
+            const img = new Image();
+            img.onload = function() {
+                resultado.textContent = 'La conexión a Internet está activa.';
+            };
+            img.onerror = function() {
+                resultado.textContent = 'No hay conexión a Internet.';
+            };
+            img.src = 'https://www.google.com/favicon.ico?_=' + new Date().getTime();
+        }
+
+        // Función para calculadora
+        function calcular() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const resultado = num1 + num2;
+            document.getElementById('resultadoCalculadora').textContent = 'Resultado: ' + resultado;
+        }
+
+        // Función para conversor de monedas
+        function convertirMoneda() {
+            const cantidad = parseFloat(document.getElementById('cantidad').value);
+            const monedaOrigen = document.getElementById('monedaOrigen').value;
+            const monedaDestino = document.getElementById('monedaDestino').value;
+            const tasaCambio = obtenerTasaCambio(monedaOrigen, monedaDestino);
+            const resultado = cantidad * tasaCambio;
+            document.getElementById('resultadoConversor').textContent = 'Resultado: ' + resultado.toFixed(2) + ' ' + monedaDestino;
+        }
+
+        function obtenerTasaCambio(origen, destino) {
+            const tasas = {
+                'USD': {'USD': 1, 'DOP': 61.40},
+                'DOP': {'DOP': 1, 'USD': 0.0177}
+            };
+            return tasas[origen][destino];
+        }
+
+        // Función para generar QR Code (formulario de contacto QR)
+        function generateQRCode() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !phone || !email) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL:${phone}
+EMAIL:${email}
+END:VCARD`;
+
+            const qrCodeContainer = document.getElementById("qrcode");
+            qrCodeContainer.innerHTML = "";
+
+            new QRCode(qrCodeContainer, {
+                text: vCardData,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        // Funcionalidad del formulario de Registro XLSX
+        const users = []; // Array para almacenar usuarios
+
+        const userForm = document.getElementById('userForm');
+        if (userForm) {
+            userForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const age = document.getElementById('age').value;
+
+                // Verificar si el email ya está registrado
+                const userExists = users.some(user => user.email === email);
+                if (userExists) {
+                    alert("Error: El correo electrónico ya está registrado.");
+                    return;
+                }
+
+                // Agregar usuario al array
+                users.push({ name, email, age });
+
+                // Actualizar la lista de usuarios en la interfaz
+                updateUserList();
+
+                // Limpiar el formulario
+                userForm.reset();
+            });
+        }
+
+        function updateUserList() {
+            const userList = document.getElementById('userList');
+            if (!userList) return;
+            userList.innerHTML = '<h2>Usuarios Registrados</h2>';
+            users.forEach(user => {
+                const div = document.createElement('div');
+                div.classList.add('user-list-item');
+                div.textContent = `Nombre: ${user.name}, Email: ${user.email}, Edad: ${user.age}`;
+                userList.appendChild(div);
+            });
+        }
+
+        function exportToExcel() {
+            if (users.length === 0) {
+                alert("No hay usuarios registrados para exportar.");
+                return;
+            }
+
+            const wb = XLSX.utils.book_new(); 
+            const ws = XLSX.utils.json_to_sheet(users);
+            XLSX.utils.book_append_sheet(wb, ws, "Usuarios");
+
+            XLSX.writeFile(wb, "usuarios_registrados.xlsx");
+        }
+    </script>
+
+</body>
+</html>
